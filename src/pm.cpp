@@ -380,8 +380,8 @@ namespace pm {
                 extremaErrorValue));
 
         std::vector<std::vector<T>> pExs(subIntervals.size());
-        #pragma omp parallel for
-        for (std::size_t i = 0u; i < subIntervals.size(); ++i)
+
+        for (int i = 0; i < subIntervals.size(); ++i)
         {
             #ifdef HAVE_MPFR
                 mpfr_prec_t prevPrec = mpfr::mpreal::get_default_prec();
@@ -429,8 +429,8 @@ namespace pm {
 
         std::size_t startingOffset = potentialExtrema.size();
         potentialExtrema.resize(potentialExtrema.size() + pEx.size());
-        #pragma omp parallel for
-        for(std::size_t i = 0u; i < pEx.size(); ++i)
+
+        for(int i = 0; i < pEx.size(); ++i)
         {
             #ifdef HAVE_MPFR
                 mpfr_prec_t prevPrec = mpfr::mpreal::get_default_prec();
@@ -1476,11 +1476,17 @@ namespace pm {
 
     /* Explicit instantiations, since template code is not in header */
 
+    #ifdef _WINDOWS
+       #define Shared_Library_Export __declspec(dllexport)
+    #else
+       #define Shared_Library_Export
+    #endif
+
     /* double precision */
-    template void uniform<double>(std::vector<double>& omega,
+    template Shared_Library_Export void uniform<double>(std::vector<double>& omega,
                 std::vector<band_t<double>>& B, std::size_t n);
 
-    template void refscaling<double>(status_t& status,
+    template Shared_Library_Export void refscaling<double>(status_t& status,
                 std::vector<double>& newX,
                 std::vector<band_t<double>>& newChebyBands,
                 std::vector<band_t<double>>& newFreqBands,
@@ -1489,13 +1495,13 @@ namespace pm {
                 std::vector<band_t<double>>& chebyBands,
                 std::vector<band_t<double>>& freqBands);
 
-    template pmoutput_t<double> exchange<double>(std::vector<double>& x,
+    template Shared_Library_Export pmoutput_t<double> exchange<double>(std::vector<double>& x,
                 std::vector<band_t<double>>& chebyBands,
                 double eps,
                 std::size_t nmax,
                 unsigned long prec);
 
-    template pmoutput_t<double> firpm<double>(std::size_t n,
+    template Shared_Library_Export pmoutput_t<double> firpm<double>(std::size_t n,
                 std::vector<double>const& f,
                 std::vector<double>const& a,
                 std::vector<double>const& w,
@@ -1506,7 +1512,7 @@ namespace pm {
                 init_t rstrategy,
                 unsigned long prec);
 
-    template pmoutput_t<double> firpm<double>(std::size_t n,
+    template Shared_Library_Export pmoutput_t<double> firpm<double>(std::size_t n,
                 std::vector<double>const& f,
                 std::vector<double>const& a,
                 std::vector<double>const& w,
@@ -1518,7 +1524,7 @@ namespace pm {
                 init_t rstrategy,
                 unsigned long prec);
 
-    template pmoutput_t<double> firpmRS<double>(std::size_t n,
+    template Shared_Library_Export pmoutput_t<double> firpmRS<double>(std::size_t n,
                 std::vector<double>const& f,
                 std::vector<double>const& a,
                 std::vector<double>const& w,
@@ -1527,7 +1533,7 @@ namespace pm {
                 init_t rstrategy,
                 unsigned long prec);
 
-    template pmoutput_t<double> firpmRS<double>(std::size_t n,
+    template Shared_Library_Export pmoutput_t<double> firpmRS<double>(std::size_t n,
                 std::vector<double>const& f,
                 std::vector<double>const& a,
                 std::vector<double>const& w,
@@ -1538,14 +1544,14 @@ namespace pm {
                 init_t rstrategy,
                 unsigned long prec);
 
-    template pmoutput_t<double> firpmAFP<double>(std::size_t n,
+    template Shared_Library_Export pmoutput_t<double> firpmAFP<double>(std::size_t n,
                 std::vector<double>const& f,
                 std::vector<double>const& a,
                 std::vector<double>const& w,
                 double eps, std::size_t nmax,
                 unsigned long prec);
 
-    template pmoutput_t<double> firpmAFP<double>(std::size_t n,
+    template Shared_Library_Export pmoutput_t<double> firpmAFP<double>(std::size_t n,
                 std::vector<double>const& f,
                 std::vector<double>const& a,
                 std::vector<double>const& w,
@@ -1555,10 +1561,10 @@ namespace pm {
                 unsigned long prec);
 
     /* long double precision */
-    template void uniform<long double>(std::vector<long double>& omega,
+    template Shared_Library_Export void uniform<long double>(std::vector<long double>& omega,
                 std::vector<band_t<long double>>& B, std::size_t n);
 
-    template void refscaling<long double>(status_t& status,
+    template Shared_Library_Export void refscaling<long double>(status_t& status,
                 std::vector<long double>& newX,
                 std::vector<band_t<long double>>& newChebyBands,
                 std::vector<band_t<long double>>& newFreqBands,
@@ -1567,13 +1573,13 @@ namespace pm {
                 std::vector<band_t<long double>>& chebyBands,
                 std::vector<band_t<long double>>& freqBands);
 
-    template pmoutput_t<long double> exchange<long double>(std::vector<long double>& x,
+    template Shared_Library_Export pmoutput_t<long double> exchange<long double>(std::vector<long double>& x,
                 std::vector<band_t<long double>>& chebyBands,
                 double eps,
                 std::size_t nmax,
                 unsigned long prec);
 
-    template pmoutput_t<long double> firpm<long double>(std::size_t n,
+    template Shared_Library_Export pmoutput_t<long double> firpm<long double>(std::size_t n,
                 std::vector<long double>const& f,
                 std::vector<long double>const& a,
                 std::vector<long double>const& w,
@@ -1584,7 +1590,7 @@ namespace pm {
                 init_t rstrategy,
                 unsigned long prec);
 
-    template pmoutput_t<long double> firpm<long double>(std::size_t n,
+    template Shared_Library_Export pmoutput_t<long double> firpm<long double>(std::size_t n,
                 std::vector<long double>const& f,
                 std::vector<long double>const& a,
                 std::vector<long double>const& w,
@@ -1596,7 +1602,7 @@ namespace pm {
                 init_t rstrategy,
                 unsigned long prec);
 
-    template pmoutput_t<long double> firpmRS<long double>(std::size_t n,
+    template Shared_Library_Export pmoutput_t<long double> firpmRS<long double>(std::size_t n,
                 std::vector<long double>const& f,
                 std::vector<long double>const& a,
                 std::vector<long double>const& w,
@@ -1605,7 +1611,7 @@ namespace pm {
                 init_t rstrategy,
                 unsigned long prec);
 
-    template pmoutput_t<long double> firpmRS<long double>(std::size_t n,
+    template Shared_Library_Export pmoutput_t<long double> firpmRS<long double>(std::size_t n,
                 std::vector<long double>const& f,
                 std::vector<long double>const& a,
                 std::vector<long double>const& w,
@@ -1616,14 +1622,14 @@ namespace pm {
                 init_t rstrategy,
                 unsigned long prec);
 
-    template pmoutput_t<long double> firpmAFP<long double>(std::size_t n,
+    template Shared_Library_Export pmoutput_t<long double> firpmAFP<long double>(std::size_t n,
                 std::vector<long double>const& f,
                 std::vector<long double>const& a,
                 std::vector<long double>const& w,
                 double eps, std::size_t nmax,
                 unsigned long prec);
 
-    template pmoutput_t<long double> firpmAFP<long double>(std::size_t n,
+    template Shared_Library_Export pmoutput_t<long double> firpmAFP<long double>(std::size_t n,
                 std::vector<long double>const& f,
                 std::vector<long double>const& a,
                 std::vector<long double>const& w,
