@@ -27,7 +27,17 @@ endif( MPFR_FOUND AND GMP_FOUND)
 # build configuration
 #-----------------------------------------------------------------------
 set(CMAKE_BUILD_TYPE Release)
-add_definitions(-std=c++11 -Wall)
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL Windows)
+	message("Set bias to eigen's root directory (EIGEN3_INCLUDE_DIRS_BIAS) relatively Eigen3_DIR, if EIGEN3_INCLUDE_DIRS is wrong")
+	message("EIGEN3_INCLUDE_DIRS: " ${EIGEN3_INCLUDE_DIRS})
+	set(EIGEN3_INCLUDE_DIRS_BIAS "/.." CACHE STRING "Set bias to eigen's root directory if EIGEN3_INCLUDE_DIRS is wrong")
+	include_directories(${Eigen3_DIR}${EIGEN3_INCLUDE_DIRS_BIAS})
+	add_definitions(-std=c++11 -Wall -D_USE_MATH_DEFINES -DEXPORTS)
+else()
+    add_definitions(-std=c++11 -Wall)
+endif()
+
 
 #-----------------------------------------------------------------------
 # common include directories
