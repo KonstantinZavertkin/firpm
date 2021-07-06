@@ -4,6 +4,7 @@
 #include <type_traits>
 #include "firpm.h"
 #include "gtest/gtest.h"
+#include "gtest/gtest-typed-test.h"
 
 using testing::Types;
 using pm::firpm;
@@ -12,10 +13,16 @@ using pm::firpmAFP;
 using pm::filter_t;
 
 #ifdef HAVE_MPFR
-    #include <unsupported/Eigen/MPRealSupport>
-    using types = testing::Types<double, long double, mpfr::mpreal>;
+    //#include <unsupported/Eigen/MPRealSupport>
+    //using types = testing::Types<double, long double, mpfr::mpreal>;
+    using types = testing::Types<double, long double>;
+    
 #else
     using types = testing::Types<double, long double>;
+    namespace mpfr
+    {
+       using mpreal = double;
+    }
 #endif
 
 template<typename _T>

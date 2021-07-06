@@ -13,8 +13,9 @@ using pm::pmoutput_t;
 using pm::filter_t;
 
 #ifdef HAVE_MPFR
-    #include <unsupported/Eigen/MPRealSupport>
-    using types = testing::Types<double, long double, mpfr::mpreal>;
+    //#include <unsupported/Eigen/MPRealSupport>
+    //using types = testing::Types<double, long double, mpfr::mpreal>;
+    using types = testing::Types<double, long double>;
 #else
     using types = testing::Types<double, long double>;
 #endif
